@@ -77,18 +77,32 @@ const Stopwatch = React.createClass({
         style={[styles.button]}
       >
         <Text>
-          Lap
+          {this.state.running ? 'Lap' : 'Clear'}
         </Text>
       </TouchableHighlight>
     );
   },
   handleLapPress: function() {
-    const lap = this.state.timeElapsed;
 
-    this.setState({
-      startTime: new Date(),
-      laps: this.state.laps.concat([lap])
-    });
+    let newStates = {};
+
+    if (this.state.running) {
+      const lap = this.state.timeElapsed;
+
+      newStates = {
+        startTime: new Date(),
+        laps: this.state.laps.concat([lap])
+      };
+    } else {
+      newStates = {
+        timeElapsed: null,
+        running: false,
+        startTime: null,
+        laps: []
+      };
+    }
+
+    this.setState(newStates);
   },
   handleStartPress: function() {
 
